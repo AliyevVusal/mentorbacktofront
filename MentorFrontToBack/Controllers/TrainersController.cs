@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MentorFrontToBack.DAL;
+using MentorFrontToBack.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +11,18 @@ namespace MentorFrontToBack.Controllers
 {
     public class TrainersController : Controller
     {
-        public IActionResult Index()
+        private readonly AppDbcontex _context;
+
+        public TrainersController(AppDbcontex context)
         {
-            return View();
+            _context = context;
+        }
+        public async Task<IActionResult> IndexAsync()
+        {
+            List<Trainer> trainer = await _context.Trainers.ToListAsync();
+
+
+            return View(trainer);
         }
     }
 }
